@@ -3,6 +3,7 @@ const express = require("express"),
 	bodyParser = require("body-parser"),
 	helmet = require("helmet"),
 	morgan = require("morgan"),
+	checkAuth = require("../Utils/authenticationCheck"),
 	{ handleError, handleNoRoute, handleCors } = require("./API/Utils/utils"),
 	app = express();
 
@@ -20,6 +21,9 @@ app.use(
 	})
 );
 app.use(bodyparser.json());
+app.use("/api/v1/user/", checkAuth, userRoutes);
+app.use("/api/v1/question/", checkAuth, questionRoutes);
+app.use("/api/v1/answer/", checkAuth, answerRoutes);
 //CORS settings access for everyone
 app.use(handleCors);
 app.use(handleNoRoute);
