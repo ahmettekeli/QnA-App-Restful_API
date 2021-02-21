@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const checkAuth = (req, res, next) => {
+const checkAuth = async (req, res, next) => {
 	if (!req.query.apiKey) {
 		return res.status(401).json({
 			message: "Must be authenticated with an API Key.",

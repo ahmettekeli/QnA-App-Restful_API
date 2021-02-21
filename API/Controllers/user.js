@@ -1,11 +1,9 @@
 const db = require("../Models");
-const User = db.QnA_DB.models.user;
+const User = db.user;
 
 const getAllUsers = async (req, res) => {
-		console.log("Retrieving all users...");
 		try {
 			const users = await User.findAll();
-			console.log({ users });
 			if (!users) {
 				return res.status(404).json({
 					message: "No user found.",
@@ -17,7 +15,6 @@ const getAllUsers = async (req, res) => {
 		}
 	},
 	getUser = async (req, res) => {
-		console.log("Retrieving user by id...");
 		const id = req.params.id;
 		try {
 			const user = await User.findOne({
@@ -30,33 +27,31 @@ const getAllUsers = async (req, res) => {
 					message: "User not found",
 				});
 			}
-			console.log({ user });
 			return res.status(200).json(user);
 		} catch (error) {
 			res.status(500).json({ error: error.message });
 		}
 	},
 	createUser = async (req, res) => {
-		const { userName, email, password } = req.body;
-		let userExists = User.findOne({
+		const { username, email, password } = req.body;
+		let userExists = await User.findOne({
 			where: {
-				userName,
+				username,
 			},
 		});
-		if (!userName || !email || !password) {
+		if (!username || !email || !password) {
 			return res.status(400).json({
 				message: "Username , email and password should be specified.",
 			});
 		}
 		if (userExists) {
 			return res.status(400).json({
-				message: `A user already exists with the user name: ${userName}`,
+				message: `A user already exists with the user name: ${username}`,
 			});
 		}
-		console.log("Creating user...");
 		try {
 			const user = await User.create({
-				userName,
+				username,
 				password,
 				email,
 			});
@@ -74,11 +69,10 @@ const getAllUsers = async (req, res) => {
 		}
 	},
 	updateUser = async (req, res) => {
-		console.log("Updating user...");
 		const id = req.params.id,
 			updateOptions = {};
-		for (const option of req.body) {
-			updateOptions[option.propName] = option.value;
+		for (const option in req.body) {
+			updateOptions[option] = req.body[option];
 		}
 		try {
 			const user = await User.update(updateOptions, {
@@ -87,12 +81,11 @@ const getAllUsers = async (req, res) => {
 				},
 			});
 			if (!user) {
-				res.status(500).json({
+				return res.status(500).json({
 					message: "User could not be updated.",
 				});
 			}
-			res.status(200).json({
-				user,
+			return res.status(200).json({
 				message: "User has been updated successfully.",
 			});
 		} catch (error) {
@@ -100,7 +93,6 @@ const getAllUsers = async (req, res) => {
 		}
 	},
 	deleteUser = async (req, res) => {
-		console.log("Deleting user...");
 		const id = req.params.id;
 		try {
 			const deleteResult = await User.destroy({
@@ -113,7 +105,6 @@ const getAllUsers = async (req, res) => {
 					message: "User not found.",
 				});
 			}
-			console.log({ deleteResult });
 			return res.status(200).json({
 				message: "User has been deleted successfully.",
 			});

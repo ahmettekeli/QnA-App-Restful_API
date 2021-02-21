@@ -11,6 +11,7 @@ const user = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
+			//TODO hide this, store hashed password
 			password: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -18,6 +19,7 @@ const user = (sequelize, DataTypes) => {
 			email: {
 				type: DataTypes.STRING,
 				allowNull: false,
+				isEmail: true,
 			},
 			isActive: {
 				type: DataTypes.BOOLEAN,

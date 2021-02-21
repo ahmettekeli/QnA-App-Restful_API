@@ -1,8 +1,7 @@
 const db = require("../Models"),
-	Answer = db.QnA_DB.models.answer;
+	Answer = db.answer;
 
-const getAnswers = async (res, req) => {
-		console.log("Restieving all answers...");
+const getAnswers = async (req, res) => {
 		try {
 			const answers = await Answer.findAll();
 			if (!answers) {
@@ -18,8 +17,7 @@ const getAnswers = async (res, req) => {
 			res.status(500).json({ error: error.message });
 		}
 	},
-	getAnswersByQuestion = async (res, req) => {
-		console.log("Retrieving all answers attached to the question...");
+	getAnswersByQuestion = async (req, res) => {
 		const id = req.params.id;
 		try {
 			const answers = await Answer.findAll({
@@ -40,11 +38,10 @@ const getAnswers = async (res, req) => {
 			res.status(500).json({ error: error.message });
 		}
 	},
-	getAnswer = async (res, req) => {
-		console.log("Retieving answer...");
+	getAnswer = async (req, res) => {
 		const id = req.params.id;
 		try {
-			const answer = await Answer.find({
+			const answer = await Answer.findOne({
 				where: {
 					id,
 				},
@@ -62,8 +59,7 @@ const getAnswers = async (res, req) => {
 			res.status(500).json({ error: error.message });
 		}
 	},
-	createAnswer = async (res, req) => {
-		console.log("Creating answer...");
+	createAnswer = async (req, res) => {
 		try {
 			const answer = await Answer.create({
 				answer: req.body.answer,
@@ -79,15 +75,14 @@ const getAnswers = async (res, req) => {
 				message: "Answer has been created successfully.",
 			});
 		} catch (error) {
-			res.status(500).json({ error: error.message });
+			return res.status(500).json({ error: error.message });
 		}
 	},
-	updateAnswer = async (res, req) => {
-		console.log("Updating answer...");
+	updateAnswer = async (req, res) => {
 		const id = req.params.id,
 			updateOptions = {};
 		for (const option in req.body) {
-			updateOptions[option.propName] = option.value;
+			updateOptions[option] = req.body[option];
 		}
 		try {
 			const answer = await Answer.update(updateOptions, {
@@ -101,15 +96,13 @@ const getAnswers = async (res, req) => {
 				});
 			}
 			return res.status(200).json({
-				answer,
 				message: "Answer has been updated successfully.",
 			});
 		} catch (error) {
 			res.status(500).json({ error: error.message });
 		}
 	},
-	deleteAnswer = async (res, req) => {
-		console.log("Deleting answer...");
+	deleteAnswer = async (req, res) => {
 		const id = req.params.id;
 		try {
 			const deleteResult = await Answer.destroy({

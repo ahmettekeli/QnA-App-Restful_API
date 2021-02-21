@@ -1,3 +1,6 @@
+const fs = require("fs"),
+	path = require("path");
+
 const handleError = (error, req, res, next) => {
 		res.status(error.status || 500);
 		res.json({
@@ -21,6 +24,9 @@ const handleError = (error, req, res, next) => {
 			return res.status(200).json();
 		}
 		next();
+	},
+	logStream = () => {
+		return fs.createWriteStream(path.join(__dirname, "./access.log"), { flags: "a" });
 	};
 
-module.exports = { handleError, handleNoRoute, handleCors };
+module.exports = { handleError, handleNoRoute, handleCors, logStream };

@@ -4,9 +4,9 @@ const express = require("express"),
 const answerController = require("../Controllers/answer");
 
 router.get("/", answerController.getAnswers);
-router.get("/byQuestion", answerController.getAnswersByQuestion);
+router.get("/byQuestion/:id", answerController.getAnswersByQuestion);
 router.get("/:id", answerController.getAnswer);
-router.post("/:id", answerController.createAnswer);
+router.post("/", answerController.createAnswer);
 router.patch("/:id", answerController.updateAnswer);
 router.delete("/:id", answerController.deleteAnswer);
 

@@ -1,8 +1,7 @@
-const db = require("../Models"),
-	Question = db.QnA_DB.models.question;
+const db = require("../Models");
+const Question = db.question;
 
 const getQuestions = async (req, res) => {
-		console.log("Retieving all questions...");
 		try {
 			const questions = await Question.findAll();
 			if (!questions) {
@@ -19,7 +18,6 @@ const getQuestions = async (req, res) => {
 		}
 	},
 	getQuestionsByUser = async (req, res) => {
-		console.log("Retieving all questions...");
 		const id = req.params.id;
 		try {
 			const questions = await Question.findAll({
@@ -41,7 +39,6 @@ const getQuestions = async (req, res) => {
 		}
 	},
 	getQuestion = async (req, res) => {
-		console.log("Retrieving question...");
 		const id = req.params.id;
 		try {
 			const question = await Question.findOne({
@@ -61,7 +58,6 @@ const getQuestions = async (req, res) => {
 		}
 	},
 	createQuestion = async (req, res) => {
-		console.log("Creating question...");
 		try {
 			const question = await Question.create({
 				question: req.body.question,
@@ -81,11 +77,10 @@ const getQuestions = async (req, res) => {
 		}
 	},
 	updateQuestion = async (req, res) => {
-		console.log("Updating question...");
 		const id = req.params.id,
 			updateOptions = {};
-		for (const option of req.body) {
-			updateOptions[option.propName] = option.value;
+		for (const option in req.body) {
+			updateOptions[option] = req.body[option];
 		}
 		try {
 			const question = await Question.update(updateOptions, {
@@ -99,7 +94,6 @@ const getQuestions = async (req, res) => {
 				});
 			}
 			return res.status(200).json({
-				question,
 				message: "Question has been updated successfully.",
 			});
 		} catch (error) {
@@ -107,7 +101,6 @@ const getQuestions = async (req, res) => {
 		}
 	},
 	deleteQuestion = async (req, res) => {
-		console.log("Deleting question...");
 		const id = req.params.id;
 		try {
 			const deleteResult = await Question.destroy({

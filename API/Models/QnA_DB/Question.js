@@ -32,4 +32,4 @@ const question = (sequelize, DataTypes) => {
 	return Question;
 };
 
-module.exports = Question;
+module.exports = question;
