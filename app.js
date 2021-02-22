@@ -3,7 +3,7 @@ const express = require("express"),
 	bodyParser = require("body-parser"),
 	helmet = require("helmet"),
 	morgan = require("morgan"),
-	checkAuth = require("./API/Utils/authenticationCheck"),
+	checkAuth = require("./API/Utils/Middlewares/authenticationCheck"),
 	{ handleError, handleNoRoute, handleCors, logStream } = require("./API/Utils/utils"),
 	app = express();
 
@@ -19,6 +19,7 @@ app.use(
 	})
 );
 app.use(bodyParser.json());
+//TODO implement caching middleware. (wrap middlewares)
 app.use("/api/v1/user/", checkAuth, userRoutes);
 app.use("/api/v1/question/", checkAuth, questionRoutes);
 app.use("/api/v1/answer/", checkAuth, answerRoutes);
