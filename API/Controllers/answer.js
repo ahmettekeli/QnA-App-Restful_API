@@ -1,5 +1,8 @@
-const db = require("../Models"),
+const { client, cacheQuestions, cacheAnswers, getCachedValues } = require("../Utils/Middlewares/cache"),
+	db = require("../Models"),
 	Answer = db.answer;
+
+//TODO listen for redis connect event for when caching.
 
 const getAnswers = async (req, res) => {
 		try {

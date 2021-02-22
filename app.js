@@ -19,7 +19,6 @@ app.use(
 	})
 );
 app.use(bodyParser.json());
-//TODO implement caching middleware. (wrap middlewares)
 app.use("/api/v1/user/", checkAuth, userRoutes);
 app.use("/api/v1/question/", checkAuth, questionRoutes);
 app.use("/api/v1/answer/", checkAuth, answerRoutes);
