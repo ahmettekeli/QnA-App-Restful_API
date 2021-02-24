@@ -1,6 +1,6 @@
-const { client, cacheQuestions, cacheAnswers, getCachedValues } = require("../Utils/Middlewares/cache"),
-	db = require("../Models"),
-	Answer = db.answer;
+const { cacheAnswers, getCachedValues } = require("../Utils/Middlewares/cache");
+const db = require("../Models");
+const Answer = db.answer;
 
 //TODO listen for redis connect event for when caching.
 
@@ -21,6 +21,11 @@ const getAnswers = async (req, res) => {
 		}
 	},
 	getAnswersByQuestion = async (req, res) => {
+		const cachedAnswers = await getCachedValues("answer");
+		if (cachedAnswers) {
+			console.log("Retrieving answers from cache", cachedAnswers);
+			return res.status(200).json(cachedAnswers);
+		}
 		const id = req.params.id;
 		try {
 			const answers = await Answer.findAll({
@@ -33,6 +38,8 @@ const getAnswers = async (req, res) => {
 					message: "No answers found.",
 				});
 			}
+			console.log("Caching answers", answers);
+			cacheAnswers(answers);
 			return res.status(200).json({
 				answers,
 				message: "Answers have been retrieved successfully.",

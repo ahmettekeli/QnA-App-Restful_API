@@ -1,5 +1,5 @@
-const fs = require("fs"),
-	path = require("path");
+const fs = require("fs");
+const path = require("path");
 
 const handleError = (error, req, res, next) => {
 		res.status(error.status || 500);

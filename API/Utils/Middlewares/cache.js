@@ -55,25 +55,4 @@ const getCachedValues = async (keyName) => {
 		}
 	};
 
-redisClient.on("connect", async () => {
-	// await cacheAnswers([
-	// 	{ answer: "cevap4", questionId: "3", isActive: "true" },
-	// 	{ answer: "cevap5", questionId: "2", isActive: "true" },
-	// 	{ answer: "cevap1", questionId: "1", isActive: "true" },
-	// 	{ answer: "cevap3", questionId: "1", isActive: "true" },
-	// 	{ answer: "cevap2", questionId: "2", isActive: "true" },
-	// 	{ answer: "cevap6", questionId: "2", isActive: "true" },
-	// 	{ answer: "cevap7", questionId: "3", isActive: "true" },
-	// ]);
-	// await cacheQuestions([
-	// 	{ question: "soru1", userId: "1", hasAnswers: "0", isActive: "true" },
-	// 	{ question: "soru2", userId: "2", hasAnswers: "0", isActive: "true" },
-	// 	{ question: "soru3", userId: "1", hasAnswers: "0", isActive: "true" },
-	// 	{ question: "soru4", userId: "2", hasAnswers: "0", isActive: "true" },
-	// 	{ question: "soru5", userId: "1", hasAnswers: "0", isActive: "true" },
-	// ]);
-	let answers = await getCachedValues("answer");
-	console.log(answers);
-});
-
 module.exports = { client: redisClient, cacheQuestions, cacheAnswers, getCachedValues };

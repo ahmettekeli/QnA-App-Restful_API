@@ -1,3 +1,4 @@
+const { cacheQuestions, getCachedValues } = require("../Utils/Middlewares/cache");
 const db = require("../Models");
 const Question = db.question;
 
@@ -18,6 +19,11 @@ const getQuestions = async (req, res) => {
 		}
 	},
 	getQuestionsByUser = async (req, res) => {
+		const cachedQuestions = await getCachedValues("question");
+		if (cachedQuestions) {
+			console.log("Retrieving questions from cache:", cachedQuestions);
+			return res.status(200).json(cachedQuestions);
+		}
 		const id = req.params.id;
 		try {
 			const questions = await Question.findAll({
@@ -30,6 +36,8 @@ const getQuestions = async (req, res) => {
 					message: "No question found.",
 				});
 			}
+			console.log("Caching questions.");
+			cacheQuestions(questions);
 			return res.status(200).json({
 				questions,
 				message: "Questions have been retrieved successfully.",

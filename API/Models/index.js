@@ -1,10 +1,10 @@
 require("dotenv").config();
-const fs = require("fs"),
-	path = require("path"),
-	Sequelize = require("sequelize"),
-	basename = path.basename(__filename),
-	env = process.env.NODE_ENV || "development",
-	config = require("../Config/config")[env];
+const fs = require("fs");
+const path = require("path");
+const Sequelize = require("sequelize");
+const basename = path.basename(__filename);
+const env = process.env.NODE_ENV || "development";
+const config = require("../Config/config")[env];
 
 let db = {},
 	database,

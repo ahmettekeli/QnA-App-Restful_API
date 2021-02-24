@@ -1,11 +1,11 @@
 require("dotenv").config();
-const express = require("express"),
-	bodyParser = require("body-parser"),
-	helmet = require("helmet"),
-	morgan = require("morgan"),
-	checkAuth = require("./API/Utils/Middlewares/authenticationCheck"),
-	{ handleError, handleNoRoute, handleCors, logStream } = require("./API/Utils/utils"),
-	app = express();
+const express = require("express");
+const bodyParser = require("body-parser");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const checkAuth = require("./API/Utils/Middlewares/authenticationCheck");
+const { handleError, handleNoRoute, handleCors, logStream } = require("./API/Utils/utils");
+const app = express();
 
 const questionRoutes = require("./API/Routes/question"),
 	answerRoutes = require("./API/Routes/answer"),
