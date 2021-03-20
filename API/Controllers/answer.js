@@ -12,10 +12,11 @@ const getAnswers = async (req, res) => {
 					message: "No answers found.",
 				});
 			}
-			return res.status(200).json({
+			const result = res.status(200).json({
 				answers,
 				message: "Answers are retrieved successfully.",
 			});
+			return result;
 		} catch (error) {
 			res.status(500).json({ error: error.message });
 		}
@@ -127,6 +128,7 @@ const getAnswers = async (req, res) => {
 			}
 			return res.status(200).json({
 				message: "Answer has been deleted successfully.",
+				data: { deleteResult },
 			});
 		} catch (error) {
 			res.status(500).json({ error: error.message });
